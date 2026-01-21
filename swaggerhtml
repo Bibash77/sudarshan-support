@@ -1,0 +1,110 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "WBA - Payments Commercial Loans - ACBS",
+    "description": "Outer API retrieves eligible Payer and Payee accounts",
+    "contact": {
+      "name": "PayCrew3",
+      "url": "https://git.pncint.net/projects/WBA/repos/wba-ma-commercial-loan-payments-outer-api/browse",
+      "email": "P2SPayCrew3@pnc.com"
+    },
+    "version": "26.2.2",
+    "x-versionDetails": "versionNumber: 1.0.0\nversionDescription: Initial Release\nversionNumber: 1.0.4\nversionDescription: TRC Automation",
+    "x-tags": "Payments Commercial Loan - ACBS",
+    "x-internalTags": "DSP, PPO",
+    "x-apiType": "OUTER"
+  },
+
+  "servers": [
+    { "url": "http://localhost:8080/wba-ma-commercial-loan-payments-outer-api/v1" },
+    { "url": "https://wba-online-banking-driver-ui-wba-rnd.apps.ocp4-rnd.pncint.net/wba-ma-commercial-loan-payments-outer-api/v1" },
+    { "url": "https://wba-online-banking-driver-ui-wba-qa.apps.ocp4-qa.pncint.net/wba-ma-commercial-loan-payments-outer-api/v1" },
+    { "url": "https://wba-online-banking-driver-ui-wba-uat.apps.ocp4-uat.pncint.net/wba-ma-commercial-loan-payments-outer-api/v1" },
+    { "url": "https://wba-online-banking-driver-ui-wba-prod.ocp.prod.pncint.net/wba-ma-commercial-loan-payments-outer-api/v1" },
+    { "url": "https://wba-online-banking-driver-ui-wba-prod.apps.ocp4-gf1.pncint.net/wba-ma-commercial-loan-payments-outer-api/v1" },
+    { "url": "https://wba-online-banking-driver-ui-wba-prod.apps.ocp4-gf2.pncint.net/wba-ma-commercial-loan-payments-outer-api/v1" },
+
+    { "url": "http://localhost:8080/wba-ma-commercial-loan-payments-outer-api/v2" },
+    { "url": "https://wba-online-banking-driver-ui-wba-rnd.apps.ocp4-rnd.pncint.net/wba-ma-commercial-loan-payments-outer-api/v2" },
+    { "url": "https://wba-online-banking-driver-ui-wba-qa.apps.ocp4-qa.pncint.net/wba-ma-commercial-loan-payments-outer-api/v2" },
+    { "url": "https://wba-online-banking-driver-ui-wba-uat.apps.ocp4-uat.pncint.net/wba-ma-commercial-loan-payments-outer-api/v2" },
+    { "url": "https://wba-online-banking-driver-ui-wba-prod.ocp.prod.pncint.net/wba-ma-commercial-loan-payments-outer-api/v2" },
+    { "url": "https://wba-online-banking-driver-ui-wba-prod.apps.ocp4-gf1.pncint.net/wba-ma-commercial-loan-payments-outer-api/v2" },
+    { "url": "https://wba-online-banking-driver-ui-wba-prod.apps.ocp4-gf2.pncint.net/wba-ma-commercial-loan-payments-outer-api/v2" }
+  ],
+
+  "paths": {
+    "/retrieveAccounts": {
+      "get": {
+        "tags": ["Retrieve eligible Accounts"],
+        "summary": "Retrieve Accounts",
+        "description": "Retrieve payee and payer account details, as well as payee eligibility response and other details",
+        "operationId": "retrieveAccounts",
+        "parameters": [
+          { "$ref": "#/components/parameters/mdmContractIdentifier" },
+          { "$ref": "#/components/parameters/mdmPartyIdentifier" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/CustomerAccountsDto" }
+              }
+            }
+          },
+          "400": { "description": "400 Bad Request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } } },
+          "401": { "description": "401 Unauthorized", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } } },
+          "500": { "description": "500 Internal Server Error", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } } }
+        }
+      }
+    },
+
+    "/v2/retrieveAccounts": {
+      "get": {
+        "tags": ["Retrieve eligible Accounts v2"],
+        "summary": "Retrieve Accounts v2",
+        "description": "v2 API: Retrieve payee and payer account details, as well as payee eligibility response and other details. Requires additional header 'systemIdentifier'.",
+        "operationId": "retrieveAccountsV2",
+        "parameters": [
+          { "$ref": "#/components/parameters/mdmContractIdentifier" },
+          { "$ref": "#/components/parameters/mdmPartyIdentifier" },
+          { "$ref": "#/components/parameters/systemIdentifier" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/CustomerAccountsDto" }
+              }
+            }
+          },
+          "400": { "description": "400 Bad Request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } } },
+          "401": { "description": "401 Unauthorized", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } } },
+          "500": { "description": "500 Internal Server Error", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } } }
+        }
+      }
+    }
+  },
+
+  "components": {
+    "parameters": {
+      "mdmContractIdentifier": { "name": "mdmContractIdentifier", "in": "header", "required": true, "description": "mdmContractIdentifier of payee account", "schema": { "type": "string" }, "example": "997464002909765100" },
+      "mdmPartyIdentifier": { "name": "mdmPartyIdentifier", "in": "header", "required": true, "description": "MDM ID of customer", "schema": { "type": "string" }, "example": "100026844073" },
+      "systemIdentifier": { "name": "systemIdentifier", "in": "header", "required": true, "description": "Identifier of the system calling the API", "schema": { "type": "string" }, "example": "ACBS" }
+    },
+
+    "schemas": {
+      "CustomerAccountsDto": { "$ref": "#/components/schemas/CustomerAccountsDto" },
+      "CustomerAccounts": { "$ref": "#/components/schemas/CustomerAccounts" },
+      "PayeeEligibility": { "$ref": "#/components/schemas/PayeeEligibility" },
+      "PayeeAccountDetails": { "$ref": "#/components/schemas/PayeeAccountDetails" },
+      "PayerAccountDetails": { "$ref": "#/components/schemas/PayerAccountDetails" },
+      "PayerAccounts": { "$ref": "#/components/schemas/PayerAccounts" },
+      "PayerAccount": { "$ref": "#/components/schemas/PayerAccount" },
+      "ErrorResponse": { "$ref": "#/components/schemas/ErrorResponse" },
+      "Error": { "$ref": "#/components/schemas/Error" }
+    }
+  }
+}
