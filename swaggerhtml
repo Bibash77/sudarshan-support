@@ -92,7 +92,7 @@
     "parameters": {
       "mdmContractIdentifier": { "name": "mdmContractIdentifier", "in": "header", "required": true, "description": "mdmContractIdentifier of payee account", "schema": { "type": "string" }, "example": "997464002909765100" },
       "mdmPartyIdentifier": { "name": "mdmPartyIdentifier", "in": "header", "required": true, "description": "MDM ID of customer", "schema": { "type": "string" }, "example": "100026844073" },
-      "systemIdentifier": { "name": "systemIdentifier", "in": "header", "required": true, "description": "Identifier of the system calling the API", "schema": { "type": "string" }, "example": "ACBS" }
+      "systemIdentifier": { "name": "systemIdentifier", "in": "header", "required": true, "description": "Identifier of the system calling the API", "schema": { "type": "string" }, "example": "WBA" }
     },
 
     "schemas": {
